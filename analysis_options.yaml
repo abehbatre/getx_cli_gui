@@ -1,0 +1,37 @@
+include: package:very_good_analysis/analysis_options.yaml
+analyzer:
+  strong-mode:
+    implicit-casts: true
+    implicit-dynamic: true
+  errors:
+    missing_required_param: warning
+    missing_return: error
+    todo: ignore
+    deprecated_member_use_from_same_package: warning
+    unnecessary_import: warning
+    unnecessary_null_comparison: ignore
+  exclude:
+    - "bin/cache/**"
+    - "dev/conductor/lib/proto/*"
+    - "lib/generated/**"
+    - "lib/app/models/**"
+    # - "lib/**_model"
+    # - "**_model.dart"
+
+linter:
+  rules:
+    public_member_api_docs: false
+    sort_pub_dependencies: false
+    flutter_style_todos: false
+    lines_longer_than_80_chars: false
+    prefer_const_constructors: false
+    prefer_int_literals: false
+    always_use_package_imports: false
+    avoid_print: false
+    unnecessary_lambdas: false
+    unnecessary_brace_in_string_interps: false
+    constant_identifier_names: false
+    unnecessary_overrides: false
+    unnecessary_string_interpolations: false
+    avoid_dynamic_calls: false
+    
