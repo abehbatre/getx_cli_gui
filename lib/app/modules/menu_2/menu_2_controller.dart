@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:click_to_copy/click_to_copy.dart';
@@ -8,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:getx_pattern/app/resource/color.dart';
 import 'package:getx_pattern/app/settings/settings.utils.dart';
 import 'package:gredu_common/gredu_common.dart';
-import 'package:process_run/shell.dart';
 
 import '../root_controller.dart';
 
@@ -52,8 +52,6 @@ class Menu2Controller extends GetxController {
 
       // step 2 : get generate model on lib/app/models with tmp/${tfInput.text}.json --skipProvider
       try {
-        final shell = Shell(workingDirectory: rootController.selectedPath.value);
-
         // step ++ : auto put output to project?
         if (isChecked.value) {
           // create folder lib/app/models
@@ -63,20 +61,42 @@ class Menu2Controller extends GetxController {
           } catch (e) {
             shellOutput.value += '$e';
           }
-          await shell.run('get generate model on lib/app/models with lib/tmp/${tfInput.text}.json --skipProvider').then((o) {
-            shellOutput.value += 'step 2 : otw generate.. \n';
-            shellOutput.value += '${o.outText} \n';
+          await Process.start(
+            'get',
+            ['generate', 'model', 'on', 'lib/app/models', 'with', 'lib/tmp/${tfInput.text}.json', '--skipProvider'],
+            runInShell: true,
+            workingDirectory: rootController.selectedPath.value,
+          ).then((o) {
+            o.stdout.transform(utf8.decoder).listen((event) async {
+              shellOutput.value += '${event}';
+              await _onErrorGenerate(event);
+              await _onFileGenerate(event);
+            });
           });
         } else {
-          await shell.run('get generate model on lib/tmp with lib/tmp/${tfInput.text}.json --skipProvider').then((o) {
-            shellOutput.value += 'step 2 : otw generate.. \n';
-            shellOutput.value += '${o.outText} \n';
+          await Process.start(
+            'get',
+            ['generate', 'model', 'on', 'lib/tmp', 'with', 'lib/tmp/${tfInput.text}.json', '--skipProvider'],
+            runInShell: true,
+            workingDirectory: rootController.selectedPath.value,
+          ).then((o) {
+            o.stdout.transform(utf8.decoder).listen((event) async {
+              shellOutput.value += '${event}';
+              await _onErrorGenerate(event);
+              await _onFileGenerate(event);
+            });
           });
         }
       } on Exception catch (e) {
         ExSnackbar.danger(message: '$e');
       }
+    } on Exception {
+      isLoading.value = false;
+    }
+  }
 
+  Future<void> _onFileGenerate(String event) async {
+    if (event.contains('Time')) {
       // step 3 : read output file and print to ${shellOutput}
       await _readFile(tfInput.text);
 
@@ -89,9 +109,15 @@ class Menu2Controller extends GetxController {
       if (isChecked.value) {
         shellOutput.value = "task done, model generate on : 'lib/app/models/${tfInput.text}_model.dart'";
       }
-    } on Exception {
+    }
+  }
+
+  Future<void> _onErrorGenerate(String event) async {
+    if (event.contains('Unexpected')) {
       isLoading.value = false;
-      shellOutputColor.value = colorError;
+      shellOutput.value = event;
+      await _deleteFile(tfInput.text);
+      ExSnackbar.danger(message: 'Failed');
     }
   }
 
@@ -129,20 +155,15 @@ class Menu2Controller extends GetxController {
       final contents = await file.readAsString();
       shellOutput.value = contents;
     } catch (e) {
-      shellOutput.value += '$e';
+      shellOutput.value = '$e';
     }
   }
 
   Future<void> _deleteFile(String fileName) async {
     try {
-      final _filePath = '${rootController.selectedPath.value}/lib/tmp/${fileName}';
-      final file1 = File('${_filePath}.json');
-      final file2 = File('${_filePath}_model.dart');
       final dir = Directory('${rootController.selectedPath.value}/lib/tmp');
-      logI(dir);
-      await file1.delete();
-      await file2.delete();
       dir.deleteSync(recursive: true);
+      await dir.delete();
     } catch (e) {
       shellOutput.value += '$e';
     }

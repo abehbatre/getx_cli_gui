@@ -37,6 +37,7 @@ class SkAppBar extends GetView<RootController> implements PreferredSizeWidget {
             iconSize: 20,
             splashRadius: 15,
             onPressed: () async {
+              controller.selectedIndex.value = 0;
               controller.isLoading.value = true;
               await AppSetting.checkRequirement(reCheck: true);
               controller.isLoading.value = false;

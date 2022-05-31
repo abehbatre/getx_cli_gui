@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gredu_common/gredu_common.dart';
-import 'package:process_run/shell.dart';
+// import 'package:process_run/shell.dart';
 
 import '../root_controller.dart';
 
@@ -30,15 +33,17 @@ class Menu1Controller extends GetxController {
     isLoading.value = true;
     try {
       shellOutput.value = '';
-      final shell = Shell(
+      await Process.start(
+        'get',
+        ['create', 'page:${tfInput.text}'],
+        runInShell: true,
         workingDirectory: rootController.selectedPath.value,
-      );
-
-      await shell.run('get create page:${tfInput.text}').then((o) {
-        isLoading.value = false;
-        shellOutput.value = '${o.outText}';
-        tfInput.text = '';
-        // ExSnackbar.success(title: 'Success', message: 'Module created ...');
+      ).then((o) {
+        o.stdout.transform(utf8.decoder).listen((event) {
+          isLoading.value = false;
+          shellOutput.value += '${event}';
+          tfInput.text = '';
+        });
       });
     } on Exception catch (e) {
       isLoading.value = false;

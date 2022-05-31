@@ -1,16 +1,17 @@
-# getx_pattern
+# GREDU TOOL
+generate get_x pattern, JSON to DART, etc.
 
-A new Flutter project.
 
-## Getting Started
+## Screenshot
+##### generate feature
+<img width="407" alt="image" src="https://user-images.githubusercontent.com/36602270/171115577-f0bb3df3-e69d-4148-a71a-f6d091a5bc1c.png">
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+##### genarate JSON to DART
+<img width="403" alt="image" src="https://user-images.githubusercontent.com/36602270/171115804-27e78109-3823-4554-9b9f-13b1a25f8aed.png">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+##### genarate common template
+<img width="404" alt="image" src="https://user-images.githubusercontent.com/36602270/171115903-2e010525-a86b-41c4-9498-1d4dc4fdeabb.png">
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##### genarate flutter toolbox
+<img width="405" alt="image" src="https://user-images.githubusercontent.com/36602270/171116061-b3ee31ef-13e0-4caf-80e0-ddc3cc7c144d.png">

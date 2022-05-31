@@ -7,9 +7,7 @@ import 'package:getx_pattern/app/utils/decorator_helper.dart';
 import 'package:getx_pattern/app/widgets/ex/index.dart';
 import 'package:gredu_common/gredu_common.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:process_run/shell.dart';
 
-import '../../widgets/code_view/dart_code_viewer.dart';
 import '../../widgets/ex/ex_button_outline.dart';
 import 'item_menu.dart';
 import 'menu_4_controller.dart';
@@ -49,9 +47,9 @@ class Menu4View extends GetView<Menu4Controller> {
                 ),
               ),
             ],
-          ),
+          ).pSymmetric(h: 16, v: 8),
         ],
-      ).p16(),
+      ),
     );
   }
 
@@ -59,73 +57,65 @@ class Menu4View extends GetView<Menu4Controller> {
     if (index == 0) {
       return Container(
         height: 320,
-        decoration: DecoratorHelper.commonBoxDecoration(fillColor: Theme.of(Get.context!).primaryColor, borderColor: Theme.of(Get.context!).primaryColor),
+        decoration: DecoratorHelper.commonBoxDecoration(fillColor: colorBlack, borderColor: colorBlack),
         child: VStack(
           [
-            'Dart Path'.text.make().pOnly(bottom: 8),
-            Container(
-              width: double.infinity,
-              decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
-              child: '${whichSync('dart')}'.selectableText.maxLines(1).make().p8(),
-            ),
-            12.heightBox,
-            'GetX Path'.text.make().pOnly(bottom: 8),
-            Container(
-              width: double.infinity,
-              decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
-              child: '${whichSync('get')}'.selectableText.maxLines(1).make().p8(),
-            ),
-            12.heightBox,
-            'ADB Path'.text.make().pOnly(bottom: 8),
-            Container(
-              width: double.infinity,
-              decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
-              child: '${whichSync('adb')}'.selectableText.maxLines(1).make().p8(),
-            ),
-            12.heightBox,
-            'Firebase Path'.text.make().pOnly(bottom: 8),
-            Container(
-              width: double.infinity,
-              decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
-              child: '${whichSync('firebase')}'.selectableText.maxLines(1).make().p8(),
-            ),
+            // 'Dart Path'.text.make().pOnly(bottom: 8),
+            // Container(
+            //   width: double.infinity,
+            //   decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
+            //   child: '${whichSync('dart')}'.selectableText.maxLines(1).make().p8(),
+            // ),
+            // 12.heightBox,
+            // 'GetX Path'.text.make().pOnly(bottom: 8),
+            // Container(
+            //   width: double.infinity,
+            //   decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
+            //   child: '${whichSync('get')}'.selectableText.maxLines(1).make().p8(),
+            // ),
+            // 12.heightBox,
+            // 'ADB Path'.text.make().pOnly(bottom: 8),
+            // Container(
+            //   width: double.infinity,
+            //   decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
+            //   child: '${whichSync('adb')}'.selectableText.maxLines(1).make().p8(),
+            // ),
+            // 12.heightBox,
+            // 'Firebase Path'.text.make().pOnly(bottom: 8),
+            // Container(
+            //   width: double.infinity,
+            //   decoration: DecoratorHelper.commonBoxDecoration(borderColor: colorNeutralDark),
+            //   child: '${whichSync('firebase')}'.selectableText.maxLines(1).make().p8(),
+            // ),
             12.heightBox,
           ],
         ).p12().scrollVertical(),
       );
-    }
-
-    if (index == 1) {
+    } else {
       return Container(
         height: 320,
         decoration: DecoratorHelper.commonBoxDecoration(fillColor: colorBlack, borderColor: colorBlack),
         child: VStack(
           [
-            Align(
-              alignment: Alignment.topRight,
-              child: ExButtonOutline(
+            HStack([
+              Obx(
+                () => '${controller.wTitle.value}'.text.caption(Get.context!).make(),
+              ),
+              Spacer(),
+              ExButtonOutline(
                 borderColor: Colors.transparent,
                 backgroundColor: Colors.transparent,
                 isLabelBold: true,
                 label: 'RUN',
                 leftIcon: Icon(MdiIcons.codeArray, size: 20),
                 labelColor: colorWhite,
-                onPressed: () async {
-                  controller.isLoading.value = true;
-                  await Shell().run('flutter doctor').then((o) {
-                    controller.isLoading.value = false;
-                    controller.shellOutput.value = o.outText;
-                  });
-                },
+                onPressed: () async => controller.runScript(index),
               ),
-            ),
+            ]),
             '${controller.shellOutput}'.selectableText.make().wh(double.infinity, 240),
           ],
         ).p12(),
       );
     }
-
-    // else
-    return Container();
   }
 }

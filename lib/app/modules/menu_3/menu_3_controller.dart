@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:getx_pattern/app/modules/root_controller.dart';
 import 'package:getx_pattern/app/settings/settings.utils.dart';
 import 'package:gredu_common/gredu_common.dart';
-import 'package:process_run/shell.dart';
 import 'package:recase/recase.dart';
 
 class Menu3Controller extends GetxController {
@@ -22,24 +21,6 @@ class Menu3Controller extends GetxController {
   Future<void> onInit() async {
     isChecked.value = await AppSetting.getIsAutoPutJsonToProject();
     super.onInit();
-  }
-
-  Future<void> run(String script) async {
-    _validator(() async {
-      isLoading.value = true;
-      shellOutput.value = 'Please wait ...';
-
-      try {
-        final shell = Shell(workingDirectory: await AppSetting.getCurrentProjectPath());
-        await shell.run(script).then((value) {
-          shellOutput.value = value.outText;
-          isLoading.value = false;
-        });
-      } on Exception catch (e) {
-        shellOutput.value = '$e';
-        isLoading.value = false;
-      }
-    });
   }
 
   Future<void> generateCode(int type) async {
@@ -88,13 +69,5 @@ class Menu3Controller extends GetxController {
       isLoading.value = false;
       shellOutput.value = 'Failed :(';
     }
-  }
-
-  void _validator(Function onValid) {
-    if (rootController.selectedPath.value.length < 2) {
-      ExSnackbar.info(title: 'Path is empty', message: 'Please path to your project');
-      return;
-    }
-    onValid.call();
   }
 }

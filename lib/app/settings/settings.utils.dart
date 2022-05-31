@@ -1,15 +1,16 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:getx_pattern/app/data/constans.dart';
-import 'package:getx_pattern/app/modules/menu_1/menu_1_controller.dart';
-import 'package:getx_pattern/app/resource/color.dart';
-import 'package:gredu_common/gredu_common.dart';
-import 'package:process_run/shell.dart';
+// import 'package:getx_pattern/app/modules/menu_1/menu_1_controller.dart';
+// import 'package:gredu_common/gredu_common.dart';
+// import 'package:getx_pattern/app/resource/color.dart';
+// import 'package:gredu_common/gredu_common.dart';
+// import 'package:process_run/shell.dart';
 
 class SettingsThemeMode {
   const SettingsThemeMode();
@@ -42,48 +43,48 @@ mixin AppSetting {
 
   // first open
   static Future<void> checkRequirement({bool reCheck = false}) async {
-    final isFI = pref.read(kIsFirstInstall) ?? true;
-    final controller = Get.find<Menu1Controller>();
+    // final isFI = pref.read(kIsFirstInstall) ?? true;
+    // final controller = Get.find<Menu1Controller>();
 
-    if (isFI || reCheck) {
-      logI('im called ..');
-      final shell = Shell();
-      controller.isLoading.value = true;
-      // try 1
-      try {
-        await shell.run('get --version').then((o) {
-          ExSnackbar.success(message: 'your device all-ready setup and use last version. so, lets go bitch!');
-          pref.write(kIsFirstInstall, false);
-          controller.isLoading.value = false;
-        });
-      } on Exception {
-        ExSnackbar.danger(message: 'Try to install missing packanges ...');
-        final shell = Shell();
+    // if (isFI || reCheck) {
+    //   logI('im called ..');
+    //   final shell = Shell();
+    //   controller.isLoading.value = true;
+    //   // try 1
+    //   try {
+    //     await shell.run('get --version').then((o) {
+    //       ExSnackbar.success(message: 'your device all-ready setup and use last version. so, lets go bitch!');
+    //       pref.write(kIsFirstInstall, false);
+    //       controller.isLoading.value = false;
+    //     });
+    //   } on Exception {
+    //     ExSnackbar.danger(message: 'Try to install missing packanges ...');
+    //     // final shell = Shell();
 
-        // try 2
-        try {
-          await shell.run(
-            '''
-          pub global activate get_cli 
-          flutter pub global activate get_cli
-          ''',
-          ).then((value) {
-            ExSnackbar.success(message: 'your device all-ready setup and use last version. so, lets go bitch!');
-            controller.isLoading.value = false;
-          });
-        } on Exception catch (e) {
-          controller.isLoading.value = false;
-          ExAlert.error(
-            title: 'GAK SUPPORT !!',
-            message: '$e',
-            titleTextColor: colorWhite,
-            messageTextColor: colorWhite,
-            onYes: () {
-              exit(0); // force close app
-            },
-          );
-        }
-      }
-    }
+    //     // try 2
+    //     try {
+    //       await shell.run(
+    //         '''
+    //       pub global activate get_cli 
+    //       flutter pub global activate get_cli
+    //       ''',
+    //       ).then((value) {
+    //         ExSnackbar.success(message: 'your device all-ready setup and use last version. so, lets go bitch!');
+    //         controller.isLoading.value = false;
+    //       });
+    //     } on Exception catch (e) {
+    //       controller.isLoading.value = false;
+    //       ExAlert.error(
+    //         title: 'GAK SUPPORT !!',
+    //         message: '$e',
+    //         titleTextColor: colorWhite,
+    //         messageTextColor: colorWhite,
+    //         onYes: () {
+    //           exit(0); // force close app
+    //         },
+    //       );
+    //     }
+    //   }
+    // }
   }
 }
