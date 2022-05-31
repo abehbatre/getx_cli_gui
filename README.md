@@ -1,6 +1,8 @@
 # GetX CLI GUI
 just GUI from https://pub.dev/packages/get_cli support windows, mac, linux
 
+design by sidekick https://github.com/fluttertools/sidekick
+
 ## Video
 <!-- https://www.youtube.com/watch?v=WWElqi8ez-E -->
 [![F*CK](https://img.youtube.com/vi/WWElqi8ez-E/0.jpg)](https://www.youtube.com/watch?v=WWElqi8ez-E)
