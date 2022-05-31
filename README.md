@@ -1,5 +1,9 @@
-# GREDU TOOL
-generate get_x pattern, JSON to DART, etc.
+# GetX CLI GUI
+just GUI from https://pub.dev/packages/get_cli support windows, mac, linux
+
+## Video
+<!-- https://www.youtube.com/watch?v=WWElqi8ez-E -->
+[![F*CK](https://img.youtube.com/vi/WWElqi8ez-E/0.jpg)](https://www.youtube.com/watch?v=WWElqi8ez-E)
 
 
 ## Screenshot
@@ -15,3 +19,6 @@ generate get_x pattern, JSON to DART, etc.
 
 ##### genarate flutter toolbox
 <img width="405" alt="image" src="https://user-images.githubusercontent.com/36602270/171116061-b3ee31ef-13e0-4caf-80e0-ddc3cc7c144d.png">
+
+
+note: project is under development
